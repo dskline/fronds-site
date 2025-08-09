@@ -1,0 +1,26 @@
+{
+	"javascript.preferences.importModuleSpecifier": "non-relative",
+	"javascript.preferences.importModuleSpecifierEnding": "minimal",
+	"typescript.preferences.importModuleSpecifier": "non-relative",
+	"typescript.preferences.importModuleSpecifierEnding": "minimal",
+	"typescript.preferences.preferTypeOnlyAutoImports": true,
+	"editor.formatOnSave": true,
+	"editor.codeActionsOnSave": {
+		"source.addMissingImports.ts": "explicit"
+	},
+	"biome.enabled": true,
+	"biome.suggestInstallingGlobally": true,
+	"editor.defaultFormatter": "biomejs.biome",
+	"notebook.defaultFormatter": "biomejs.biome",
+	"markdown-preview-enhanced.automaticallyShowPreviewOfMarkdownBeingEdited": false,
+	"npm-outdated.level": "minor",
+	"files.associations": {
+		"*.css": "tailwindcss"
+	},
+	"[jsonc]": {
+		"editor.defaultFormatter": "vscode.json-language-features"
+	},
+	"chat.promptFilesLocations": {
+		"contributing/prompts": true
+	}
+}

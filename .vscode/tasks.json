@@ -1,0 +1,17 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"type": "shell",
+			"command": "pnpm run lint:fix --unsafe ${file}",
+			"label": "lint:fix single",
+			"problemMatcher": []
+		},
+		{
+			"type": "shell",
+			"command": "pnpm run lint:fix",
+			"label": "lint:fix all",
+			"problemMatcher": []
+		}
+	]
+}
