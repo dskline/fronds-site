@@ -114,6 +114,26 @@ export function useClassInterests(
 		);
 	};
 
+	// Update the spec selection for a class (undefined -> null)
+	const handleSpecChange = (
+		wowClass: VanillaWowClass,
+		specId: string | undefined,
+	) => {
+		const existingInterest = interestMap.get(wowClass);
+		if (!existingInterest) return; // ignore for unselected classes
+
+		setInterests((prev) =>
+			prev.map((interest) =>
+				interest.class === wowClass
+					? { ...interest, spec: specId ?? null, updated_at: new Date().toISOString() }
+					: interest,
+			),
+		);
+	};
+
+	const getClassSpec = (wowClass: VanillaWowClass) =>
+		interestMap.get(wowClass)?.spec ?? null;
+
 	const handleSave = async () => {
 		setIsSaving(true);
 		setSaveMessage("");
@@ -160,6 +180,9 @@ export function useClassInterests(
 		handleClassToggle,
 		handleMoveUp,
 		handleMoveDown,
+		// new
+		handleSpecChange,
+		getClassSpec,
 		handleSave,
 	};
 }

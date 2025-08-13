@@ -1,4 +1,5 @@
 import type { VanillaWowClass } from "../types";
+import { VANILLA_CLASS_SPECS } from "../types";
 
 interface ClassInterestItemProps {
 	wowClass: VanillaWowClass;
@@ -8,6 +9,9 @@ interface ClassInterestItemProps {
 	onMoveDown?: () => void;
 	canMoveUp?: boolean;
 	canMoveDown?: boolean;
+	// spec handling
+	selectedSpecId?: string | null;
+	onSpecChange?: (wowClass: VanillaWowClass, specId: string | undefined) => void;
 }
 
 export default function ClassInterestItem({
@@ -18,6 +22,8 @@ export default function ClassInterestItem({
 	onMoveDown,
 	canMoveUp,
 	canMoveDown,
+	selectedSpecId,
+	onSpecChange,
 }: ClassInterestItemProps) {
 	return (
 		<div className="flex items-center space-x-3 bg-white p-3 border rounded-lg shadow-sm">
@@ -32,6 +38,20 @@ export default function ClassInterestItem({
 			>
 				{wowClass}
 			</span>
+			{isSelected && (
+				<select
+					className="text-sm font-medium text-gray-900 border rounded px-2 py-1 bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 w-44"
+					value={selectedSpecId ?? ""}
+					onChange={(e) => onSpecChange?.(wowClass, e.target.value === "" ? undefined : e.target.value)}
+				>
+					<option value="">Flex</option>
+					{VANILLA_CLASS_SPECS[wowClass].map((opt) => (
+						<option key={opt.id} value={opt.id}>
+							{opt.label}
+						</option>
+					))}
+				</select>
+			)}
 			{isSelected && (onMoveUp || onMoveDown) && (
 				<div className="flex space-x-1">
 					<button

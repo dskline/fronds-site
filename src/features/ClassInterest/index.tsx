@@ -25,6 +25,8 @@ export default function ClassInterest({
 		handleMoveUp,
 		handleMoveDown,
 		handleSave,
+		handleSpecChange,
+		getClassSpec,
 	} = useClassInterests(discordId, initialInterests);
 
 	return (
@@ -36,6 +38,8 @@ export default function ClassInterest({
 				onToggle={handleClassToggle}
 				onMoveUp={handleMoveUp}
 				onMoveDown={handleMoveDown}
+				getClassSpec={getClassSpec}
+				onSpecChange={handleSpecChange}
 			/>
 
 			<AvailableClasses

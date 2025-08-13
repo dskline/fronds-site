@@ -6,6 +6,9 @@ interface SelectedClassesProps {
 	onToggle: (wowClass: VanillaWowClass) => void;
 	onMoveUp: (wowClass: VanillaWowClass) => void;
 	onMoveDown: (wowClass: VanillaWowClass) => void;
+	// spec selection
+	getClassSpec?: (wowClass: VanillaWowClass) => string | null;
+	onSpecChange?: (wowClass: VanillaWowClass, specId: string | undefined) => void;
 }
 
 export default function SelectedClasses({
@@ -13,6 +16,8 @@ export default function SelectedClasses({
 	onToggle,
 	onMoveUp,
 	onMoveDown,
+	getClassSpec,
+	onSpecChange,
 }: SelectedClassesProps) {
 	if (selectedClasses.length === 0) return null;
 
@@ -30,6 +35,8 @@ export default function SelectedClasses({
 						onMoveDown={() => onMoveDown(wowClass)}
 						canMoveUp={index > 0}
 						canMoveDown={index < selectedClasses.length - 1}
+						selectedSpecId={getClassSpec?.(wowClass) ?? null}
+						onSpecChange={onSpecChange}
 					/>
 				))}
 			</div>
