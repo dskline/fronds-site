@@ -51,6 +51,29 @@ export interface Database {
 					public_note?: string | null;
 				};
 			};
+			character_interests: {
+				Row: {
+					id: number;
+					created_at: string;
+					updated_at: string;
+					discord_id: string;
+					spec: string | null;
+					lexorank: string;
+					class: string;
+				};
+				Insert: {
+					discord_id: string;
+					spec?: string | null;
+					lexorank: string;
+					class: string;
+				};
+				Update: {
+					discord_id?: string;
+					spec?: string | null;
+					lexorank?: string;
+					class?: string;
+				};
+			};
 		};
 	};
 }
