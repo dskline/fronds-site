@@ -1,5 +1,6 @@
 "use client";
 import Image from "next/image";
+import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import type { DiscordUser } from "src/features/DiscordAuth/schema";
@@ -16,7 +17,7 @@ export function ProfileActions({ discordUser }: Props) {
 		const loginSuccess = searchParams.get("login") === "success";
 		if (loginSuccess) {
 			router.replace("/"); // Remove the query parameter from the URL
-			fetch("/api/discord/me")
+			fetch("/api/profile")
 				.then((res) => {
 					if (res.ok) {
 						return res.json();
@@ -33,11 +34,14 @@ export function ProfileActions({ discordUser }: Props) {
 		}
 	}, [searchParams, router.replace]);
 
+	if (!user) {
+		return <Link href="/api/discord/login">Login</Link>;
+	}
+
 	return (
-		<div>
-			{!user ? (
-				<span className="text-white">Not logged in</span>
-			) : (
+		<div className="flex items-center gap-3">
+			{/* <ProfileSelect userId={user.id} /> */}
+			<Link href="/profile">
 				<Image
 					src={
 						user.avatar
@@ -47,10 +51,10 @@ export function ProfileActions({ discordUser }: Props) {
 					alt="Discord Avatar"
 					width={40}
 					height={40}
-					className="rounded-full border-2 border-white"
+					className="rounded-full border-2 border-white hover:border-gray-200 transition-colors cursor-pointer"
 					priority
 				/>
-			)}
+			</Link>
 		</div>
 	);
 }
