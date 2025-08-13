@@ -74,6 +74,25 @@ export interface Database {
 					class?: string;
 				};
 			};
+			discord_users: {
+				Row: {
+					id: string; // Discord user ID
+					username: string; // global_name or username
+					avatar: string | null; // avatar hash
+					created_at: string; // timestamp
+					updated_at: string; // timestamp
+				};
+				Insert: {
+					id: string;
+					username: string;
+					avatar?: string | null;
+				};
+				Update: {
+					id?: string;
+					username?: string;
+					avatar?: string | null;
+				};
+			};
 		};
 	};
 }

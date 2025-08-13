@@ -3,6 +3,7 @@ import type {
 	DiscordTokenResponse,
 	DiscordUser,
 } from "src/features/DiscordAuth/schema";
+import { supabase } from "src/features/database";
 
 function getEnv(name: string): string {
 	const value = process.env[name];
@@ -76,6 +77,23 @@ export async function GET(request: NextRequest) {
 
 		const user: DiscordUser = await userResponse.json();
 
+		// Upsert user into supabase discord_users table
+		const username = user.global_name || user.username;
+		const { error: upsertError } = await supabase.from("discord_users").upsert(
+			[
+				{
+					id: user.id,
+					username,
+					avatar: user.avatar, // store raw hash; can construct URL client-side
+				},
+			],
+			{ onConflict: "id" },
+		);
+
+		if (upsertError) {
+			console.error("Failed to upsert discord user:", upsertError);
+		}
+
 		// Clean up state cookie and redirect back to home
 		const response = NextResponse.redirect(`${baseUrl}/?login=success`);
 		response.cookies.delete("discord_oauth_state");
@@ -84,7 +102,7 @@ export async function GET(request: NextRequest) {
 			"discord_user",
 			JSON.stringify({
 				id: user.id,
-				name: user.global_name || user.username,
+				name: username,
 				avatar: user.avatar,
 			}),
 			{
