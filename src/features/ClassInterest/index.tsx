@@ -25,7 +25,7 @@ function ClassInterestItem({
 	canMoveDown,
 }: ClassInterestItemProps) {
 	return (
-		<div className="flex items-center space-x-3 p-3 bg-white border rounded-lg shadow-sm">
+		<div className="flex items-center space-x-3 bg-white p-3 border rounded-lg shadow-sm">
 			<input
 				type="checkbox"
 				checked={isSelected}
@@ -43,7 +43,7 @@ function ClassInterestItem({
 						type="button"
 						onClick={onMoveUp}
 						disabled={!canMoveUp}
-						className="p-1 text-gray-400 hover:text-gray-600 disabled:opacity-30 disabled:cursor-not-allowed"
+						className="p-1 text-gray-800 hover:text-gray-600 disabled:opacity-30 disabled:cursor-not-allowed"
 						title="Move up"
 					>
 						<svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
@@ -59,7 +59,7 @@ function ClassInterestItem({
 						type="button"
 						onClick={onMoveDown}
 						disabled={!canMoveDown}
-						className="p-1 text-gray-400 hover:text-gray-600 disabled:opacity-30 disabled:cursor-not-allowed"
+						className="p-1 text-gray-800 hover:text-gray-600 disabled:opacity-30 disabled:cursor-not-allowed"
 						title="Move down"
 					>
 						<svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
@@ -114,10 +114,12 @@ export default function ClassInterest({
 				prev.filter((interest) => interest.class !== wowClass),
 			);
 		} else {
-			// Add new interest with appropriate lexorank
+			// Add new interest at the bottom with appropriate lexorank
 			const sortedInterests = interests.sort((a, b) =>
 				a.lexorank.localeCompare(b.lexorank),
 			);
+
+			// Get the last rank and create a new rank after it
 			const lastRank =
 				sortedInterests.length > 0
 					? sortedInterests[sortedInterests.length - 1].lexorank
@@ -142,20 +144,20 @@ export default function ClassInterest({
 		const currentIndex = selectedClasses.indexOf(wowClass);
 		if (currentIndex <= 0) return;
 
-		const sortedInterests = interests.sort((a, b) =>
+		// Get the current sorted list
+		const sortedInterests = [...interests].sort((a, b) =>
 			a.lexorank.localeCompare(b.lexorank),
 		);
-		const currentInterest = sortedInterests.find((i) => i.class === wowClass);
-		const prevInterest = sortedInterests[currentIndex - 1];
-		const beforePrevInterest =
-			currentIndex > 1 ? sortedInterests[currentIndex - 2] : null;
 
-		if (!currentInterest || !prevInterest) return;
+		// Find the target position (one up from current)
+		const targetIndex = currentIndex - 1;
 
-		const newRank = getRankBetween(
-			beforePrevInterest?.lexorank || null,
-			prevInterest.lexorank,
-		);
+		// Calculate new rank between the item before the target and the target
+		const beforeTargetRank =
+			targetIndex > 0 ? sortedInterests[targetIndex - 1].lexorank : null;
+		const targetRank = sortedInterests[targetIndex].lexorank;
+
+		const newRank = getRankBetween(beforeTargetRank, targetRank);
 
 		setInterests((prev) =>
 			prev.map((interest) =>
@@ -170,22 +172,22 @@ export default function ClassInterest({
 		const currentIndex = selectedClasses.indexOf(wowClass);
 		if (currentIndex >= selectedClasses.length - 1) return;
 
-		const sortedInterests = interests.sort((a, b) =>
+		// Get the current sorted list
+		const sortedInterests = [...interests].sort((a, b) =>
 			a.lexorank.localeCompare(b.lexorank),
 		);
-		const currentInterest = sortedInterests.find((i) => i.class === wowClass);
-		const nextInterest = sortedInterests[currentIndex + 1];
-		const afterNextInterest =
-			currentIndex < selectedClasses.length - 2
-				? sortedInterests[currentIndex + 2]
+
+		// Find the target position (one down from current)
+		const targetIndex = currentIndex + 1;
+
+		// Calculate new rank between the target and the item after the target
+		const targetRank = sortedInterests[targetIndex].lexorank;
+		const afterTargetRank =
+			targetIndex < sortedInterests.length - 1
+				? sortedInterests[targetIndex + 1].lexorank
 				: null;
 
-		if (!currentInterest || !nextInterest) return;
-
-		const newRank = getRankBetween(
-			nextInterest.lexorank,
-			afterNextInterest?.lexorank || null,
-		);
+		const newRank = getRankBetween(targetRank, afterTargetRank);
 
 		setInterests((prev) =>
 			prev.map((interest) =>
@@ -236,10 +238,8 @@ export default function ClassInterest({
 	return (
 		<div className="max-w-2xl mx-auto p-6 space-y-6">
 			<div>
-				<h2 className="text-2xl font-bold text-gray-900 mb-2">
-					Class Interests
-				</h2>
-				<p className="text-gray-600">
+				<h2 className="text-2xl font-bold mb-2">Class Interests</h2>
+				<p>
 					Select and reorder your preferred WoW classes. Use the arrow buttons
 					to reorder selected items.
 				</p>
@@ -248,9 +248,7 @@ export default function ClassInterest({
 			{/* Selected Classes */}
 			{selectedClasses.length > 0 && (
 				<div>
-					<h3 className="text-lg font-semibold text-gray-800 mb-3">
-						Selected Classes
-					</h3>
+					<h3 className="text-lg font-semibold  mb-3">Selected Classes</h3>
 					<div className="space-y-2">
 						{selectedClasses.map((wowClass, index) => (
 							<ClassInterestItem
@@ -271,9 +269,7 @@ export default function ClassInterest({
 			{/* Unselected Classes */}
 			{unselectedClasses.length > 0 && (
 				<div>
-					<h3 className="text-lg font-semibold text-gray-800 mb-3">
-						Available Classes
-					</h3>
+					<h3 className="text-lg font-semibold mb-3">Available Classes</h3>
 					<div className="space-y-2">
 						{unselectedClasses.map((wowClass) => (
 							<ClassInterestItem

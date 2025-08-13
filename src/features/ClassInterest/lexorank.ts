@@ -1,12 +1,8 @@
-// Lexorank utility for reordering items
-// Based on simplified lexorank algorithm
-
-const BASE_36_CHARS = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-const MIN_CHAR = "0";
-const MAX_CHAR = "Z";
+// Simple lexorank utility for reordering items
+// Uses a much simpler approach with fractional strings
 
 export function getInitialRank(): string {
-	return "m";
+	return "n"; // Middle of alphabet
 }
 
 export function getRankBetween(
@@ -18,10 +14,12 @@ export function getRankBetween(
 	}
 
 	if (!prev) {
-		return getRankBefore(next || "");
+		// Insert before next - use a character before next's first char
+		return getRankBefore(next || "a");
 	}
 
 	if (!next) {
+		// Insert after prev - use a character after prev's last char or extend
 		return getRankAfter(prev);
 	}
 
@@ -30,49 +28,49 @@ export function getRankBetween(
 
 function getRankBefore(rank: string): string {
 	const firstChar = rank.charAt(0);
-	if (firstChar === MIN_CHAR) {
-		return MIN_CHAR + rank;
+	const charCode = firstChar.charCodeAt(0);
+
+	if (charCode > 97) {
+		// 'a'
+		// Use previous character
+		return String.fromCharCode(charCode - 1);
 	}
 
-	const prevChar = BASE_36_CHARS[BASE_36_CHARS.indexOf(firstChar) - 1];
-	return prevChar + "Z";
+	// If it's 'a', prepend with 'a'
+	return `a${rank}`;
 }
 
 function getRankAfter(rank: string): string {
 	const lastChar = rank.charAt(rank.length - 1);
-	if (lastChar === MAX_CHAR) {
-		return rank + MIN_CHAR;
+	const charCode = lastChar.charCodeAt(0);
+
+	if (charCode < 122) {
+		// 'z'
+		// Use next character
+		return rank.slice(0, -1) + String.fromCharCode(charCode + 1);
 	}
 
-	const nextChar = BASE_36_CHARS[BASE_36_CHARS.indexOf(lastChar) + 1];
-	return rank.slice(0, -1) + nextChar;
+	// If it's 'z', append 'a'
+	return `${rank}a`;
 }
 
 function getRankBetweenStrings(prev: string, next: string): string {
-	// Simple midpoint calculation
-	const maxLength = Math.max(prev.length, next.length);
-	const paddedPrev = prev.padEnd(maxLength, MIN_CHAR);
-	const paddedNext = next.padEnd(maxLength, MIN_CHAR);
-
-	let result = "";
-	for (let i = 0; i < maxLength; i++) {
-		const prevCharIndex = BASE_36_CHARS.indexOf(paddedPrev[i]);
-		const nextCharIndex = BASE_36_CHARS.indexOf(paddedNext[i]);
-
-		if (prevCharIndex === nextCharIndex) {
-			result += BASE_36_CHARS[prevCharIndex];
-			continue;
-		}
-
-		const midIndex = Math.floor((prevCharIndex + nextCharIndex) / 2);
-		result += BASE_36_CHARS[midIndex];
-		break;
+	// Find the first differing character position
+	let i = 0;
+	while (i < prev.length && i < next.length && prev[i] === next[i]) {
+		i++;
 	}
 
-	// If we couldn't find a midpoint, add a character
-	if (result === prev || result === next) {
-		result = prev + "1";
+	// Get the characters at the differing position
+	const prevChar = i < prev.length ? prev.charCodeAt(i) : 96; // char before 'a'
+	const nextChar = i < next.length ? next.charCodeAt(i) : 123; // char after 'z'
+
+	// If there's a character in between, use it
+	if (nextChar - prevChar > 1) {
+		const midChar = String.fromCharCode(Math.floor((prevChar + nextChar) / 2));
+		return prev.slice(0, i) + midChar;
 	}
 
-	return result;
+	// No character in between, extend with 'a'
+	return `${prev}a`;
 }

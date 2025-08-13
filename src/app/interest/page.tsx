@@ -54,7 +54,7 @@ export default async function InterestPage() {
 	const characterInterests = await fetchCharacterInterests(discordUser.id);
 
 	return (
-		<div className="min-h-screen bg-gray-50 py-12">
+		<div className="min-h-screen py-12">
 			<ClassInterest
 				discordId={discordUser.id}
 				initialInterests={characterInterests}

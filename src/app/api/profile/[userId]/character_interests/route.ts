@@ -2,11 +2,10 @@ import { supabase } from "src/features/database";
 
 export async function GET(
 	_request: Request,
-	{ params }: { params: { id: string } },
+	{ params }: { params: Promise<{ userId: string }> },
 ) {
-	const userId = params.id;
-
 	try {
+		const { userId } = await params;
 		const { data, error } = await supabase
 			.from("character_interests")
 			.select("*")
@@ -29,9 +28,9 @@ export async function GET(
 
 export async function POST(
 	request: Request,
-	{ params }: { params: { id: string } },
+	{ params }: { params: Promise<{ userId: string }> },
 ) {
-	const userId = params.id;
+	const { userId } = await params;
 
 	try {
 		const body = await request.json();
