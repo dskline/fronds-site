@@ -8,7 +8,10 @@ interface SelectedClassesProps {
 	onMoveDown: (wowClass: VanillaWowClass) => void;
 	// spec selection
 	getClassSpec?: (wowClass: VanillaWowClass) => string | null;
-	onSpecChange?: (wowClass: VanillaWowClass, specId: string | undefined) => void;
+	onSpecChange?: (
+		wowClass: VanillaWowClass,
+		specId: string | undefined,
+	) => void;
 }
 
 export default function SelectedClasses({

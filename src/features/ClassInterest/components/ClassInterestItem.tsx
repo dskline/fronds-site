@@ -11,7 +11,10 @@ interface ClassInterestItemProps {
 	canMoveDown?: boolean;
 	// spec handling
 	selectedSpecId?: string | null;
-	onSpecChange?: (wowClass: VanillaWowClass, specId: string | undefined) => void;
+	onSpecChange?: (
+		wowClass: VanillaWowClass,
+		specId: string | undefined,
+	) => void;
 }
 
 export default function ClassInterestItem({
@@ -42,7 +45,12 @@ export default function ClassInterestItem({
 				<select
 					className="text-sm font-medium text-gray-900 border rounded px-2 py-1 bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 w-44"
 					value={selectedSpecId ?? ""}
-					onChange={(e) => onSpecChange?.(wowClass, e.target.value === "" ? undefined : e.target.value)}
+					onChange={(e) =>
+						onSpecChange?.(
+							wowClass,
+							e.target.value === "" ? undefined : e.target.value,
+						)
+					}
 				>
 					<option value="">Flex</option>
 					{VANILLA_CLASS_SPECS[wowClass].map((opt) => (

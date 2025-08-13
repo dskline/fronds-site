@@ -125,7 +125,11 @@ export function useClassInterests(
 		setInterests((prev) =>
 			prev.map((interest) =>
 				interest.class === wowClass
-					? { ...interest, spec: specId ?? null, updated_at: new Date().toISOString() }
+					? {
+							...interest,
+							spec: specId ?? null,
+							updated_at: new Date().toISOString(),
+						}
 					: interest,
 			),
 		);
