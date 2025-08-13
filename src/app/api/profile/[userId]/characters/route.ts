@@ -2,9 +2,9 @@ import { supabase } from "src/features/database";
 
 export async function GET(
 	_request: Request,
-	{ params }: { params: { id: string } },
+	{ params }: { params: Promise<{ userId: string }> },
 ) {
-	const userId = params.id;
+	const { userId } = await params;
 
 	try {
 		const { data, error } = await supabase
