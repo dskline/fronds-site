@@ -1,7 +1,7 @@
 import { useMemo, useState } from "react";
+import type { CharacterInterest, VanillaWowClass } from "../../types";
+import { VANILLA_WOW_CLASSES } from "../../types";
 import { getRankBetween } from "../lexorank";
-import type { CharacterInterest, VanillaWowClass } from "../types";
-import { VANILLA_WOW_CLASSES } from "../types";
 
 export function useClassInterests(
 	discordId: string,

@@ -3,7 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import DiscordAuth from "src/features/DiscordAuth";
 import type { DiscordUser } from "src/features/DiscordAuth/schema";
-import ClassInterestFeed from "../ClassInterest/components/ClassInterestFeed";
+import ClassInterestFeed from "../profile/ClassInterest/components/ClassInterestFeed";
 import FrondsLogo from "./fronds-logo.webp";
 
 export default async function HomePage() {

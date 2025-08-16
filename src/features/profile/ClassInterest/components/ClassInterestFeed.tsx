@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { useEffect, useMemo, useState } from "react";
+import type { CharacterInterest } from "../../types";
 
 interface DiscordUser {
 	id: string;
@@ -174,13 +175,8 @@ export default function ClassInterestFeed() {
 	);
 }
 
-import {
-	type CharacterInterest,
-	VANILLA_CLASS_SPECS,
-	type VanillaWowClass,
-} from "src/features/profile/types";
-
 // Helper to translate spec id to label
+import { VANILLA_CLASS_SPECS, type VanillaWowClass } from "../../types";
 
 function timeAgo(iso: string): string {
 	const date = new Date(iso);

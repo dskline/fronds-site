@@ -1,4 +1,4 @@
-import type { VanillaWowClass } from "../types";
+import type { VanillaWowClass } from "../../types";
 import ClassInterestItem from "./ClassInterestItem";
 
 interface SelectedClassesProps {

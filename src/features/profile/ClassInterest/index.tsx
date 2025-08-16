@@ -1,11 +1,11 @@
 "use client";
 
+import type { CharacterInterest } from "../types";
 import AvailableClasses from "./components/AvailableClasses";
 import ClassInterestHeader from "./components/ClassInterestHeader";
 import SaveBar from "./components/SaveBar";
 import SelectedClasses from "./components/SelectedClasses";
 import { useClassInterests } from "./hooks/useClassInterests";
-import type { CharacterInterest } from "./types";
 
 interface ClassInterestProps {
 	discordId: string;

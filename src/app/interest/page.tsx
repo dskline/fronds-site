@@ -1,8 +1,8 @@
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
-import ClassInterest from "src/features/ClassInterest";
-import type { CharacterInterest } from "src/features/ClassInterest/types";
 import type { DiscordUser } from "src/features/DiscordAuth/schema";
+import ClassInterest from "src/features/profile/ClassInterest";
+import type { CharacterInterest } from "src/features/profile/types";
 
 async function fetchCharacterInterests(
 	discordId: string,

@@ -1,5 +1,5 @@
-import type { VanillaWowClass } from "../types";
-import { VANILLA_CLASS_SPECS } from "../types";
+import type { VanillaWowClass } from "../../types";
+import { VANILLA_CLASS_SPECS } from "../../types";
 
 interface ClassInterestItemProps {
 	wowClass: VanillaWowClass;
