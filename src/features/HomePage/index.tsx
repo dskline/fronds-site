@@ -21,7 +21,7 @@ export default async function HomePage() {
 
 	return (
 		<div className="min-h-screen flex flex-col">
-			<div className="h-screen min-h-[500px] max-h-[700px] flex flex-col items-center justify-center">
+			<div className="h-screen min-h-[300px] max-h-[500px] flex flex-col items-center justify-center">
 				<div className="h-1/3 w-3/4 lg:w-1/3 mx-auto">
 					<Image
 						src={FrondsLogo}
@@ -36,7 +36,7 @@ export default async function HomePage() {
 					{discordUser ? (
 						<Link
 							href="/interest"
-							className="flex items-center justify-center w-full h-12 bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded transition-colors duration-200"
+							className="flex items-center justify-center w-full h-12 bg-emerald-600 hover:bg-emerald-500 active:bg-emerald-700 text-white font-semibold py-2 px-8 rounded shadow-md shadow-emerald-900/30 transition-colors duration-150 focus:outline-none focus:ring-2 focus:ring-emerald-400 focus:ring-offset-2"
 						>
 							Pick your class interests for Ambershire
 						</Link>
