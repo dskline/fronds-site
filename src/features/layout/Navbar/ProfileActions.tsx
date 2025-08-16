@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import type { DiscordUser } from "src/features/DiscordAuth/schema";
+import { ProfileSelect } from "src/features/profile/ProfileSelect";
 
 type Props = {
 	discordUser?: DiscordUser;
@@ -40,7 +41,7 @@ export function ProfileActions({ discordUser }: Props) {
 
 	return (
 		<div className="flex items-center gap-3">
-			{/* <ProfileSelect userId={user.id} /> */}
+			<ProfileSelect userId={user.id} />
 			<Link href="/profile">
 				<Image
 					src={

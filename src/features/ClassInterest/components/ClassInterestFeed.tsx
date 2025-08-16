@@ -2,6 +2,8 @@
 
 import Image from "next/image";
 import { useEffect, useMemo, useState } from "react";
+import { CharacterButton } from "../../profile/CharacterButton";
+import type { SpecId } from "../../profile/types";
 
 interface DiscordUser {
 	id: string;
@@ -152,15 +154,32 @@ export default function ClassInterestFeed() {
 									</span>
 									!
 								</p>
-								<ol className="mt-3 list-decimal list-inside space-y-1 text-sm text-slate-300">
-									{group.interests.map((i) => (
-										<li key={`${i.id}-${i.lexorank}`} className="pl-1">
-											<span className="font-semibold text-slate-100">
-												{i.class}
-											</span>{" "}
-											{i.spec ? renderSpecLabel(i.spec) : <span>(Flex)</span>}
-										</li>
-									))}
+								<ol className="mt-3 space-y-2 text-sm text-slate-300 list-none">
+									{group.interests.map((i, idx) => {
+										const name = i.spec
+											? `${i.class} ${renderSpecLabel(i.spec)}`
+											: `${i.class} (Flex)`;
+										const character = {
+											name,
+											class: i.class as VanillaWowClass,
+											main_spec: i.spec ? (i.spec as SpecId) : undefined,
+										};
+										return (
+											<li
+												key={`${i.id}-${i.lexorank}`}
+												className="flex items-center gap-3"
+											>
+												<span className="w-5 text-right text-slate-400 text-xs font-mono select-none">
+													{idx + 1}.
+												</span>
+												<CharacterButton
+													character={character}
+													showSpecIcon={i.spec ? "main_spec" : undefined}
+													className="px-2 py-1 bg-white/5 hover:bg-white/10"
+												/>
+											</li>
+										);
+									})}
 								</ol>
 								<p className="mt-4 text-xs text-slate-500 uppercase tracking-wide font-medium">
 									{timeAgo(group.created_at)}

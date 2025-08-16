@@ -106,3 +106,10 @@ export const VANILLA_CLASS_SPECS: Record<VanillaWowClass, SpecOption[]> = {
 		{ label: "Restoration", id: "DRUID_RESTO" },
 	],
 };
+
+export interface Character {
+	name: string;
+	class: VanillaWowClass;
+	main_spec?: SpecId; // Optional primary spec
+	off_spec?: SpecId; // Optional secondary spec
+}
